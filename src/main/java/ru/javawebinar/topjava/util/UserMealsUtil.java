@@ -38,10 +38,6 @@ public class UserMealsUtil {
                 resultList.add(new UserMealWithExceed(meal.getDateTime(), meal.getDescription(),
                         meal.getCalories(), map.get(meal.getDateTime().toLocalDate()) > caloriesPerDay)));
 
-        for (UserMealWithExceed meal : resultList) {
-            System.out.println(meal.exceed);
-        }
-
         return resultList;
     }
 }
