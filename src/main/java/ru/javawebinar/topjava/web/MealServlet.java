@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealsDao;
+import ru.javawebinar.topjava.dao.MealsDaoImpl;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -19,7 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet{
     private static final Logger log = getLogger(MealServlet.class);
     private static final int MAX_CALORIES_PER_DAY = 2000;
-    private MealsDao mealsDao = new MealsDao();
+    private MealsDao mealsDao = new MealsDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
