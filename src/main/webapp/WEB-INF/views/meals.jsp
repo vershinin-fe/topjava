@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
@@ -13,6 +13,7 @@
 
 <table class="tg">
 <tr>
+    <th>ID</th>
     <th>Date</th>
     <th>Time</th>
     <th>Description</th>
@@ -22,6 +23,7 @@
     <c:choose>
         <c:when test = "${element.exceed == false}">
             <tr style="color: #077200;">
+                <td>${element.id}</td>
                 <td>${element.date}</td>
                 <td>${element.time}</td>
                 <td>${element.description}</td>
@@ -30,6 +32,7 @@
         </c:when>
         <c:otherwise>
             <tr style="color: #ff0012">
+                <td>${element.id}</td>
                 <td>${element.date}</td>
                 <td>${element.time}</td>
                 <td>${element.description}</td>
