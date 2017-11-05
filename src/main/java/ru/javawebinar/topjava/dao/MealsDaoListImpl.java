@@ -8,11 +8,11 @@ import java.util.List;
 
 import ru.javawebinar.topjava.model.Meal;
 
-public class MealsDaoImpl implements MealsDao {
+public class MealsDaoListImpl implements MealsDao {
 
     private List<Meal> meals;
 
-    public MealsDaoImpl() {
+    public MealsDaoListImpl() {
         meals = new ArrayList<>();
 
         meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
@@ -34,8 +34,8 @@ public class MealsDaoImpl implements MealsDao {
     }
 
     @Override
-    public void updateMeal(Meal meal) {
-        deleteMeal(meal.getId());
+    public void updateMeal(int id, Meal meal) {
+        deleteMeal(id);
         addMeal(meal);
     }
 

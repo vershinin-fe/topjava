@@ -9,7 +9,7 @@ public interface MealsDao {
 
     void deleteMeal(int mealId);
 
-    void updateMeal(Meal meal);
+    void updateMeal(int id, Meal meal);
 
     List<Meal> getAllMeals();
 

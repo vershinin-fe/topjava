@@ -2,9 +2,8 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealsDao;
-import ru.javawebinar.topjava.dao.MealsDaoImpl;
+import ru.javawebinar.topjava.dao.MealsDaoListImpl;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -13,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalTime;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -23,11 +22,13 @@ public class MealServlet extends HttpServlet{
     private static final int MAX_CALORIES_PER_DAY = 2000;
     private static final String TO_MEALS_LIST = "WEB-INF/views/meals.jsp";
     private static final String TO_MEAL_FORM = "WEB-INF/views/meal.jsp";
-    private MealsDao mealsDao = new MealsDaoImpl();
+    private MealsDao mealsDao = new MealsDaoListImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
+
+        request.setCharacterEncoding("UTF-8");
 
         String forwardPath;
         String action = request.getParameter("action");
@@ -60,27 +61,27 @@ public class MealServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String
-//        User user = new User();
-//        user.setFirstName(request.getParameter("firstName"));
-//        user.setLastName(request.getParameter("lastName"));
-//        try {
-//            Date dob = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("dob"));
-//            user.setDob(dob);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        user.setEmail(request.getParameter("email"));
-//        String userid = request.getParameter("userid");
-//        if(userid == null || userid.isEmpty())
-//        {
-//            dao.addUser(user);
-//        }
-//        else
-//        {
-//            user.setUserid(Integer.parseInt(userid));
-//            dao.updateUser(user);
-//        }
+        request.setCharacterEncoding("UTF-8");
+
+        LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("mealDate"), DateTimeFormatter.ISO_DATE_TIME);
+
+        String description = request.getParameter("mealDescription");
+
+        int calories = Integer.parseInt(request.getParameter("mealCalories"));
+
+        String mealIdString = request.getParameter("mealid");
+
+        Meal newMeal = new Meal(dateTime, description, calories);
+
+        if(mealIdString == null || mealIdString.isEmpty())
+        {
+            mealsDao.addMeal(newMeal);
+        }
+        else
+        {
+            int mealId = Integer.parseInt(mealIdString);
+            mealsDao.updateMeal(mealId, newMeal);
+        }
 
         request.setAttribute("mealList", MealsUtil.getAllWithExceeded(mealsDao.getAllMeals(), MAX_CALORIES_PER_DAY));
         request.getRequestDispatcher(TO_MEALS_LIST).forward(request, response);
