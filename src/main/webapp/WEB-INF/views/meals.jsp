@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Meals</title>
-    <style>
+    <style type="text/css">
         <jsp:include page="../static/table.css"/>
     </style>
 </head>
@@ -18,6 +18,7 @@
     <th>Time</th>
     <th>Description</th>
     <th>Calories</th>
+    <th colspan="2">Action</th>
 </tr>
 <c:forEach items="${mealList}" var="element">
     <c:choose>
@@ -28,6 +29,8 @@
                 <td>${element.time}</td>
                 <td>${element.description}</td>
                 <td>${element.calories}</td>
+                <td><a href="meals?action=edit&mealId=<c:out value="${element.id}"/>">Update</a></td>
+                <td><a href="meals?action=delete&mealId=<c:out value="${element.id}"/>">Delete</a></td>
             </tr>
         </c:when>
         <c:otherwise>
@@ -37,11 +40,14 @@
                 <td>${element.time}</td>
                 <td>${element.description}</td>
                 <td>${element.calories}</td>
+                <td><a href="meals?action=edit&mealId=<c:out value="${element.id}"/>">Update</a></td>
+                <td><a href="meals?action=delete&mealId=<c:out value="${element.id}"/>">Delete</a></td>
             </tr>
         </c:otherwise>
     </c:choose>
 </c:forEach>
 </table>
+<p><a href="meals?action=insert">Add Meal</a></p>
 
 </body>
 </html>
