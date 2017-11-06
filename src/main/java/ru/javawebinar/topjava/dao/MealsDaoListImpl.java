@@ -5,47 +5,53 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ru.javawebinar.topjava.model.Meal;
 
 public class MealsDaoListImpl implements MealsDao {
+    private static AtomicInteger counter = new AtomicInteger(1);
 
     private List<Meal> meals;
 
     public MealsDaoListImpl() {
-        meals = new ArrayList<>();
+        meals = Collections.synchronizedList(new ArrayList<Meal>());
 
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
-        meals.add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
+        add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
     }
 
     @Override
-    public void addMeal(Meal meal) {
+    public void add(Meal meal) {
+        meal.setId(counter.getAndIncrement());
         meals.add(meal);
     }
 
     @Override
-    public void deleteMeal(int mealId) {
+    public void delete(int mealId) {
         meals.removeIf(meal -> meal.getId() == mealId);
     }
 
     @Override
-    public void updateMeal(int id, Meal meal) {
-        deleteMeal(id);
-        addMeal(meal);
+    public void update(Meal meal) {
+        for (int i = 0; i < meals.size(); i++) {
+            if(meals.get(i).getId() == meal.getId()){
+                meals.set(i, meal);
+            }
+        }
     }
 
     @Override
-    public List<Meal> getAllMeals() {
+    public List<Meal> getAll() {
         return Collections.unmodifiableList(meals);
     }
 
     @Override
-    public Meal getMealById(int mealId) {
+    public Meal getById(int mealId) {
         return meals.stream()
                 .filter(fm -> fm.getId() == mealId)
                 .findFirst()

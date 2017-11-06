@@ -21,30 +21,15 @@
     <th colspan="2">Action</th>
 </tr>
 <c:forEach items="${mealList}" var="element">
-    <c:choose>
-        <c:when test = "${element.exceed == false}">
-            <tr style="color: #077200;">
-                <td>${element.id}</td>
-                <td>${element.date}</td>
-                <td>${element.time}</td>
-                <td>${element.description}</td>
-                <td>${element.calories}</td>
-                <td><a href="meals?action=edit&mealId=<c:out value="${element.id}"/>">Update</a></td>
-                <td><a href="meals?action=delete&mealId=<c:out value="${element.id}"/>">Delete</a></td>
-            </tr>
-        </c:when>
-        <c:otherwise>
-            <tr style="color: #ff0012">
-                <td>${element.id}</td>
-                <td>${element.date}</td>
-                <td>${element.time}</td>
-                <td>${element.description}</td>
-                <td>${element.calories}</td>
-                <td><a href="meals?action=edit&mealId=<c:out value="${element.id}"/>">Update</a></td>
-                <td><a href="meals?action=delete&mealId=<c:out value="${element.id}"/>">Delete</a></td>
-            </tr>
-        </c:otherwise>
-    </c:choose>
+    <tr style="color: <c:out value="${element.exceed == false ? '#077200' : '#ff0012'}"/>">
+        <td>${element.id}</td>
+        <td>${element.date}</td>
+        <td>${element.time}</td>
+        <td>${element.description}</td>
+        <td>${element.calories}</td>
+        <td><a href="meals?action=edit&mealId=<c:out value="${element.id}"/>">Update</a></td>
+        <td><a href="meals?action=delete&mealId=<c:out value="${element.id}"/>">Delete</a></td>
+    </tr>
 </c:forEach>
 </table>
 <p><a href="meals?action=insert">Add Meal</a></p>

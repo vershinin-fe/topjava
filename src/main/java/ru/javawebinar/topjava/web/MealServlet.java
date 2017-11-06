@@ -42,7 +42,7 @@ public class MealServlet extends HttpServlet{
             case "edit":
                 forwardPath = TO_MEAL_FORM;
                 int mealForEditId = Integer.parseInt(request.getParameter("mealId"));
-                Meal meal = mealsDao.getMealById(mealForEditId);
+                Meal meal = mealsDao.getById(mealForEditId);
                 request.setAttribute("meal", meal);
                 break;
             case "insert":
@@ -50,10 +50,12 @@ public class MealServlet extends HttpServlet{
                 break;
             case "delete":
                 int mealForDeleteId = Integer.parseInt(request.getParameter("mealId"));
-                mealsDao.deleteMeal(mealForDeleteId);
+                mealsDao.delete(mealForDeleteId);
+                response.sendRedirect("meals");
+                return;
             default:
                 forwardPath = TO_MEALS_LIST;
-                request.setAttribute("mealList", MealsUtil.getAllWithExceeded(mealsDao.getAllMeals(), MAX_CALORIES_PER_DAY));
+                request.setAttribute("mealList", MealsUtil.getAllWithExceeded(mealsDao.getAll(), MAX_CALORIES_PER_DAY));
         }
 
         request.getRequestDispatcher(forwardPath).forward(request, response);
@@ -75,15 +77,16 @@ public class MealServlet extends HttpServlet{
 
         if(mealIdString == null || mealIdString.isEmpty())
         {
-            mealsDao.addMeal(newMeal);
+            mealsDao.add(newMeal);
         }
         else
         {
             int mealId = Integer.parseInt(mealIdString);
-            mealsDao.updateMeal(mealId, newMeal);
+            newMeal.setId(mealId);
+            mealsDao.update(newMeal);
         }
 
-        request.setAttribute("mealList", MealsUtil.getAllWithExceeded(mealsDao.getAllMeals(), MAX_CALORIES_PER_DAY));
+        request.setAttribute("mealList", MealsUtil.getAllWithExceeded(mealsDao.getAll(), MAX_CALORIES_PER_DAY));
         request.getRequestDispatcher(TO_MEALS_LIST).forward(request, response);
     }
 }
