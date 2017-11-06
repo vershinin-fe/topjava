@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealsDao;
 import ru.javawebinar.topjava.dao.MealsDaoListImpl;
+import ru.javawebinar.topjava.dao.MealsDaoMapImpl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -22,7 +23,8 @@ public class MealServlet extends HttpServlet{
     private static final int MAX_CALORIES_PER_DAY = 2000;
     private static final String TO_MEALS_LIST = "WEB-INF/views/meals.jsp";
     private static final String TO_MEAL_FORM = "WEB-INF/views/meal.jsp";
-    private MealsDao mealsDao = new MealsDaoListImpl();
+//    private MealsDao mealsDao = new MealsDaoListImpl();
+    private MealsDao mealsDao = new MealsDaoMapImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
