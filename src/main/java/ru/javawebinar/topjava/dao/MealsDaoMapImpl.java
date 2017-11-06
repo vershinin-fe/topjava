@@ -11,11 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MealsDaoMapImpl implements MealsDao{
+    private static MealsDao instance;
     private static AtomicInteger counter = new AtomicInteger(1);
 
     private Map<Integer, Meal> meals;
 
-    public MealsDaoMapImpl() {
+    private MealsDaoMapImpl() {
         meals = new ConcurrentHashMap<>();
 
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
@@ -24,6 +25,14 @@ public class MealsDaoMapImpl implements MealsDao{
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+    }
+
+    public static synchronized MealsDao getInstance(){
+        if(instance == null){
+            instance = new MealsDaoMapImpl();
+        }
+
+        return instance;
     }
 
     @Override

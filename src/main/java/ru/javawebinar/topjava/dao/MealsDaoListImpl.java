@@ -10,11 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import ru.javawebinar.topjava.model.Meal;
 
 public class MealsDaoListImpl implements MealsDao {
+    private static MealsDao instance;
     private static AtomicInteger counter = new AtomicInteger(1);
 
     private List<Meal> meals;
 
-    public MealsDaoListImpl() {
+    private MealsDaoListImpl() {
         meals = Collections.synchronizedList(new ArrayList<Meal>());
 
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
@@ -23,6 +24,14 @@ public class MealsDaoListImpl implements MealsDao {
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
         add(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+    }
+
+    public static synchronized MealsDao getInstance(){
+        if(instance == null){
+            instance = new MealsDaoListImpl();
+        }
+
+        return instance;
     }
 
     @Override

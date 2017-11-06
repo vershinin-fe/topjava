@@ -23,8 +23,8 @@ public class MealServlet extends HttpServlet{
     private static final int MAX_CALORIES_PER_DAY = 2000;
     private static final String TO_MEALS_LIST = "WEB-INF/views/meals.jsp";
     private static final String TO_MEAL_FORM = "WEB-INF/views/meal.jsp";
-//    private MealsDao mealsDao = new MealsDaoListImpl();
-    private MealsDao mealsDao = new MealsDaoMapImpl();
+//    private MealsDao mealsDao = MealsDaoListImpl.getInstance();
+    private MealsDao mealsDao = MealsDaoMapImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
