@@ -18,9 +18,22 @@
 </head>
 <body>
 <section>
-    <h3><a href="index.html">Home</a></h3>
-    <h2>Meals</h2>
-    <a href="meals?action=create">Add Meal</a>
+    <div style="display: table;">
+        <div style="display: inline-block; width: 150px;">
+            <h3><a href="index.html">Home</a></h3>
+            <h2>Meals</h2>
+            <a href="meals?action=create">Add Meal</a>
+        </div>
+        <div style="display: inline-block">
+            <form method="get" action="meals">
+                <input type="date" name="minDate" value="${minDate}">
+                <input type="time" name="minTime" value="${minTime}">
+                <input type="date" name="maxDate" value="${maxDate}">
+                <input type="time" name="maxTime" value="${maxTime}">
+                <input type="submit">
+            </form>
+        </div>
+    </div>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
