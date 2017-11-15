@@ -3,8 +3,12 @@ package ru.javawebinar.topjava.repository.mock;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.UsersUtil;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,6 +32,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
+        } else if (!repository.get(userId).containsKey(meal.getId())) {
+            return null;
         }
 
         repository.get(userId).put(meal.getId(), meal);
@@ -54,6 +60,13 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public List<Meal> getAll(int userId) {
         return Collections.unmodifiableList(repository.get(userId).values().stream().
                 sorted(Comparator.comparing(Meal::getDateTime).reversed()).
+                collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<Meal> getFiltered(int userId, LocalDate fromDate, LocalDate toDate, LocalTime fromTime, LocalTime toTime) {
+        return Collections.unmodifiableList(getAll(userId).stream().
+                filter(m -> DateTimeUtil.isBetween(m.getDate(), fromDate, toDate) && DateTimeUtil.isBetween(m.getTime(), fromTime, toTime)).
                 collect(Collectors.toList()));
     }
 }
