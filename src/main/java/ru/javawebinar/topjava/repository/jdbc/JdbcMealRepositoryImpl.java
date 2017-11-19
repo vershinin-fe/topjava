@@ -37,7 +37,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             String sqlQuery = "INSERT INTO meals (date_time, description, calories, user_id) VALUES (?, ?, ?, ?);";
             rowsAffected = jdbcTemplate.update(connection -> {
                         PreparedStatement ps = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-                        ps.setTimestamp(1, new Timestamp(meal.getDateTime().toInstant(ZoneOffset.UTC).toEpochMilli()));
+                        ps.setTimestamp(1, Timestamp.valueOf(meal.getDateTime()));
                         ps.setString(2, meal.getDescription());
                         ps.setInt(3, meal.getCalories());
                         ps.setInt(4, userId);
@@ -47,7 +47,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             meal.setId(newKey);
         } else {
             rowsAffected = jdbcTemplate.update("UPDATE meals SET date_time=?, description=?, calories=? WHERE id=? AND user_id=?;",
-                    new Timestamp(meal.getDateTime().toInstant(ZoneOffset.UTC).toEpochMilli()),
+                    Timestamp.valueOf(meal.getDateTime()),
                     meal.getDescription(),
                     meal.getCalories(),
                     meal.getId(),
