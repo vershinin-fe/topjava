@@ -31,10 +31,11 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public Meal save(Meal meal, int userId) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected;
 
         if (meal.isNew()) {
             String sqlQuery = "INSERT INTO meals (date_time, description, calories, user_id) VALUES (?, ?, ?, ?);";
-            jdbcTemplate.update(connection -> {
+            rowsAffected = jdbcTemplate.update(connection -> {
                         PreparedStatement ps = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
                         ps.setTimestamp(1, new Timestamp(meal.getDateTime().toInstant(ZoneOffset.UTC).toEpochMilli()));
                         ps.setString(2, meal.getDescription());
@@ -45,14 +46,15 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             int newKey = (int) keyHolder.getKeys().get("id");
             meal.setId(newKey);
         } else {
-            jdbcTemplate.update("UPDATE meals SET date_time=?, description=?, calories=? WHERE id=? AND user_id=?;",
+            rowsAffected = jdbcTemplate.update("UPDATE meals SET date_time=?, description=?, calories=? WHERE id=? AND user_id=?;",
                     new Timestamp(meal.getDateTime().toInstant(ZoneOffset.UTC).toEpochMilli()),
                     meal.getDescription(),
                     meal.getCalories(),
                     meal.getId(),
                     userId);
+
         }
-        return meal;
+        return rowsAffected != 0 ? meal : null;
     }
 
     @Override
