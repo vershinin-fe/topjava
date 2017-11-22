@@ -75,7 +75,6 @@ public class MealServiceTest {
     public void createDuplicateDateTime() throws Exception {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,31, 20, 0,0), "Ужин", 510);
         service.create(meal, 100000);
-        assertMatch(meal, service.get(100011, 100000));
     }
 
 }
