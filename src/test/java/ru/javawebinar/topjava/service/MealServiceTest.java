@@ -1,6 +1,9 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -25,6 +31,29 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+    public static Map<String, Long> durations = new HashMap<>();
+
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            super.finished(nanos, description);
+            durations.put(description.getMethodName(), nanos);
+            System.out.println("Duration: " + nanos);
+        }
+    };
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @AfterClass
+    public static void after() {
+        System.out.println("===================================");
+        System.out.println("Report");
+        System.out.println("===================================");
+        durations.forEach((key, value) -> System.out.printf("%-20s: %.2f millis\n", key, (double)value / 1000000.0));
+        System.out.println("===================================");
+    }
 
     static {
         SLF4JBridgeHandler.install();
@@ -39,8 +68,10 @@ public class MealServiceTest {
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testDeleteNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Not found entity with");
         service.delete(MEAL1_ID, 1);
     }
 
@@ -57,8 +88,10 @@ public class MealServiceTest {
         assertMatch(actual, ADMIN_MEAL1);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testGetNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Not found entity with");
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
@@ -69,8 +102,10 @@ public class MealServiceTest {
         assertMatch(service.get(MEAL1_ID, USER_ID), updated);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testUpdateNotFound() throws Exception {
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Not found entity with");
         service.update(MEAL1, ADMIN_ID);
     }
 
