@@ -12,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.TimingRule;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -33,31 +34,16 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 public class MealServiceTest {
     public static Map<String, Long> durations = new HashMap<>();
 
-    @Rule
-    public Stopwatch stopwatch = new Stopwatch() {
-        @Override
-        protected void finished(long nanos, Description description) {
-            super.finished(nanos, description);
-            durations.put(description.getMethodName(), nanos);
-            System.out.println("Duration: " + nanos);
-        }
-    };
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @AfterClass
-    public static void after() {
-        System.out.println("===================================");
-        System.out.println("Report");
-        System.out.println("===================================");
-        durations.forEach((key, value) -> System.out.printf("%-20s: %.2f millis\n", key, (double)value / 1000000.0));
-        System.out.println("===================================");
-    }
-
     static {
         SLF4JBridgeHandler.install();
     }
+
+    @Rule
+    @ClassRule
+    public static TimingRule timingRule = new TimingRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
     private MealService service;
