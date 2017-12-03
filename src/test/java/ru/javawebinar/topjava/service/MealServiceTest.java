@@ -66,6 +66,7 @@ public abstract class MealServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
+        results.setLength(0);
     }
 
     @Autowired
