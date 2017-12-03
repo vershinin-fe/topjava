@@ -19,7 +19,7 @@ public class CrudMealRepositoryCustomImpl implements CrudMealRepositoryCustom{
         if(!meal.isNew()){
             Meal actualMeal = em.find(Meal.class, meal.getId());
 
-            if(actualMeal.getUser().getId() != userId || actualMeal == null){
+            if(actualMeal == null || actualMeal.getUser().getId() != userId){
                 return Optional.empty();
             } else {
                 return Optional.of(em.merge(meal));
