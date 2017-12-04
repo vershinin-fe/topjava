@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.service;
 
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -19,4 +21,7 @@ public interface UserService {
     void update(User user);
 
     List<User> getAll();
+
+    @Transactional(readOnly = true)
+    default User getWithMeals(int id) { throw new UnsupportedOperationException();}
 }

@@ -7,9 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
@@ -55,6 +53,16 @@ public class User extends AbstractNamedEntity {
     @Range(min = 10, max = 10000)
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable
+            (
+                    name = "meals",
+                    //joinColumns = @JoinColumn(name="CUST_ID", referencedColumnName="ID"),
+                    inverseJoinColumns = @JoinColumn(name="id"/*, referencedColumnName="ID"*/)
+            )
+    private List<Meal> meals = new ArrayList<>();
+
     public User() {
     }
 
@@ -73,6 +81,10 @@ public class User extends AbstractNamedEntity {
         this.caloriesPerDay = caloriesPerDay;
         this.enabled = enabled;
         this.roles = roles;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
     }
 
     public String getEmail() {

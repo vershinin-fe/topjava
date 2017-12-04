@@ -1,6 +1,9 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -24,4 +27,7 @@ public interface MealService {
     Meal update(Meal meal, int userId) throws NotFoundException;
 
     Meal create(Meal meal, int userId);
+
+    @Transactional
+    default Meal getWithUser(int id, int userId) { throw new UnsupportedOperationException();}
 }
