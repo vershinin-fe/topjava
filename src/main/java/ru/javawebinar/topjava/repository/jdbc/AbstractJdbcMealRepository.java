@@ -17,15 +17,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public abstract class AbstractJdbcMealRepository implements MealRepository {
+public abstract class AbstractJdbcMealRepository<T> implements MealRepository {
 
-    protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    protected final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    protected final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    protected final SimpleJdbcInsert insertMeal;
+    private final SimpleJdbcInsert insertMeal;
 
     @Autowired
     public AbstractJdbcMealRepository(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -86,5 +86,5 @@ public abstract class AbstractJdbcMealRepository implements MealRepository {
                 "SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
     }
 
-    abstract protected <T> T convertTime(LocalDateTime localDateTime);
+    abstract protected T convertTime(LocalDateTime localDateTime);
 }
