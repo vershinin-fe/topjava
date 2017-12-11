@@ -3,13 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
     <h3><spring:message code="meal.title"/></h3>
-    <form method="post" action="${pageContext.request.contextPath}/meals">
+    <form:form method="post" servletRelativeAction="/meals">
         <dl>
             <dt><spring:message code="meal.from-date"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -27,7 +28,7 @@
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
         <button type="submit"><spring:message code="meal.filter"/></button>
-    </form>
+    </form:form>
     <hr/>
     <a href="meals/create"><spring:message code="meal.add-meal"/></a>
     <hr/>

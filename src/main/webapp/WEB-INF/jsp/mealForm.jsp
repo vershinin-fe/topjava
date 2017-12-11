@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -10,7 +11,7 @@
     <h2><spring:message code="meal.edit-meal"/></h2>
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
-    <form method="post" action="${pageContext.request.contextPath}/meals/save">
+    <form:form method="post" servletRelativeAction="/meals/save">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt><spring:message code="meal.date-time"/>:</dt>
@@ -26,7 +27,7 @@
         </dl>
         <button type="submit"><spring:message code="common.save"/></button>
         <button onclick="window.history.back()" type="button"><spring:message code="common.cancel"/></button>
-    </form>
+    </form:form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
