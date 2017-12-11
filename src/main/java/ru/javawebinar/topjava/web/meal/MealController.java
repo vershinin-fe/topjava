@@ -30,10 +30,10 @@ public class MealController extends AbstractMealController {
         return "meals";
     }
 
-    @GetMapping("/deleteMeal")
+    @GetMapping("/meals/delete")
     public String deleteMeal(@RequestParam("id") int id) {
         delete(id);
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 
     @PostMapping("/meals")
@@ -48,7 +48,7 @@ public class MealController extends AbstractMealController {
         return "meals";
     }
 
-    @GetMapping("/createMeal")
+    @GetMapping("/meals/create")
     public String toCreateForm(HttpServletRequest request) {
         final Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
         request.setAttribute("meal", meal);
@@ -56,7 +56,7 @@ public class MealController extends AbstractMealController {
         return "mealForm";
     }
 
-    @GetMapping("/updateMeal")
+    @GetMapping("/meals/update")
     public String toUpdateForm(@RequestParam("id") int id, HttpServletRequest request) {
         final Meal meal = get(id);
         request.setAttribute("meal", meal);
@@ -64,7 +64,7 @@ public class MealController extends AbstractMealController {
         return "mealForm";
     }
 
-    @PostMapping("/saveMeal")
+    @PostMapping("/meals/save")
     public String saveMeal(HttpServletRequest request) throws IOException {
         request.setCharacterEncoding("UTF-8");
         Meal meal = new Meal(
@@ -79,6 +79,6 @@ public class MealController extends AbstractMealController {
             update(meal, Integer.parseInt(request.getParameter("id")));
         }
 
-        return "redirect:meals";
+        return "redirect:/meals";
     }
 }
