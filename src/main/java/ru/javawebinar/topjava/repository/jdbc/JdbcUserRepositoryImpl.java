@@ -95,14 +95,14 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 "SELECT * FROM users u JOIN user_roles ur ON u.id = ur.user_id ORDER BY u.name, u.email",
                 getResultList());
 
-        results.sort(Comparator.comparing(User::getName).thenComparing(User::getEmail));
+        //results.sort(Comparator.comparing(User::getName).thenComparing(User::getEmail));
 
         return results;
     }
 
     private ResultSetExtractor<List<User>> getResultList(){
         return rs -> {
-            Map<Integer, User> users = new HashMap<>();
+            Map<Integer, User> users = new LinkedHashMap<>();
             while(rs.next()) {
                 Integer userId = rs.getInt("id");
                 User user = users.get(userId);
