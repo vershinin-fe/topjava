@@ -28,8 +28,10 @@ public class MealTestData {
 
     public static final List<Meal> MEALS = Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
 
-    public static final String START_DATE_TIME = "2015-05-31T09:00:00";
-    public static final String END_DATE_TIME = "2015-05-31T14:00:00";
+    public static final String START_DATE = "2015-05-31";
+    public static final String START_TIME = "09:00:00";
+    public static final String END_DATE = "2015-05-31";
+    public static final String END_TIME = "14:00:00";
 
     public static Meal getCreated() {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Созданный ужин", 300);
