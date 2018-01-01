@@ -16,21 +16,21 @@
         <form method="post" action="meals/filter">
             <dl>
                 <dt><spring:message code="meal.startDate"/>:</dt>
-                <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+                <dd><input class="form-control" type="date" name="startDate" value="${param.startDate}"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.endDate"/>:</dt>
-                <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
+                <dd><input class="form-control" type="date" name="endDate" value="${param.endDate}"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.startTime"/>:</dt>
-                <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
+                <dd><input class="form-control" type="time" name="startTime" value="${param.startTime}"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.endTime"/>:</dt>
-                <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+                <dd><input class="form-control" type="time" name="endTime" value="${param.endTime}"></dd>
             </dl>
-            <button type="submit"><spring:message code="meal.filter"/></button>
+            <button class="btn btn-primary" type="submit"><spring:message code="meal.filter"/></button>
         </form>
         <hr>
         <a class="btn btn-primary" onclick="add()">
@@ -60,7 +60,7 @@
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-                    <td><a class="delete" id="${meal.id}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                    <td><a class="delete" onclick="deleteRow(${meal.id})"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -82,7 +82,7 @@
                         <label for="dateTime" class="control-label col-xs-3"><spring:message code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="dateTime" name="dateTime" placeholder="<spring:message code="meal.dateTime"/>">
+                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" placeholder="<spring:message code="meal.dateTime"/>">
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                         <label for="calories" class="control-label col-xs-3"><spring:message code="meal.calories"/></label>
 
                         <div class="col-xs-9">
-                            <input type="number" class="form-control" id="calories" name="calories" placeholder="<spring:message code="meal.calories"/>">
+                            <input type="number" min="10" max="5000" class="form-control" id="calories" name="calories" placeholder="<spring:message code="meal.calories"/>">
                         </div>
                     </div>
 

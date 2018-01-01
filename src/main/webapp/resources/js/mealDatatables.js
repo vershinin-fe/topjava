@@ -7,7 +7,7 @@ $(function () {
         "info": true,
         "columns": [
             {
-                "data": "dateTtime"
+                "data": "dateTime"
             },
             {
                 "data": "description"
