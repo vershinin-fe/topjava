@@ -43,9 +43,8 @@ $(function () {
 
 function enableChange(checkbox, id) {
     $.ajax({
-        type: "POST",
-        url: ajaxUrl + 'enable/' + id,
-        data: { enable: checkbox.checked },
+        type: "PUT",
+        url: ajaxUrl + (checkbox.checked ? 'enable/' : 'disable/') + id,
         success: function () {
             updateTable();
         }
