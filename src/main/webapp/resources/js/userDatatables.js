@@ -40,3 +40,14 @@ $(function () {
     });
     makeEditable();
 });
+
+function enableChange(checkbox, id) {
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl + 'enable/' + id,
+        data: { enable: checkbox.checked },
+        success: function () {
+            updateTable();
+        }
+    });
+}
