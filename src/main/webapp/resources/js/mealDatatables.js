@@ -2,6 +2,15 @@ var ajaxUrl = "ajax/profile/meals/";
 var datatableApi;
 
 $(function () {
+    updateTable = getFiltered;
+});
+
+$("#filterForm").submit(function () {
+    getFiltered();
+    return false;
+});
+
+$(function () {
     datatableApi = $("#datatable").DataTable({
         "paging": false,
         "info": true,
