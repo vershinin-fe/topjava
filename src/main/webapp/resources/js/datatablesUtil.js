@@ -4,6 +4,11 @@ function makeEditable() {
         return false;
     });
 
+    $("#filterForm").submit(function () {
+        getFiltered();
+        return false;
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -29,9 +34,14 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.clear().rows.add(data).draw();
-    });
+    if($("#filterForm").length !== 0) {
+        getFiltered();
+    }
+    else {
+        $.get(ajaxUrl, function (data) {
+            datatableApi.clear().rows.add(data).draw();
+        });
+    }
 }
 
 function save() {

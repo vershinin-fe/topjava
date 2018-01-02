@@ -33,3 +33,21 @@ $(function () {
     });
     makeEditable();
 });
+
+function getFiltered() {
+    var form = $("#filterForm");
+
+    $.ajax({
+        type: "GET",
+        url: ajaxUrl + 'filter',
+        data: form.serialize(),
+        success: function (data) {
+            datatableApi.clear().rows.add(data).draw();
+        }
+    });
+}
+
+function clearFilter() {
+    $("#filterForm").find("input").val('');
+    updateTable();
+}

@@ -13,24 +13,25 @@
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
 
-        <form method="post" action="meals/filter">
+        <form class="form-horizontal" id="filterForm">
             <dl>
                 <dt><spring:message code="meal.startDate"/>:</dt>
-                <dd><input class="form-control" type="date" name="startDate" value="${param.startDate}"></dd>
+                <dd><input class="form-control" type="date" name="startDate"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.endDate"/>:</dt>
-                <dd><input class="form-control" type="date" name="endDate" value="${param.endDate}"></dd>
+                <dd><input class="form-control" type="date" name="endDate"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.startTime"/>:</dt>
-                <dd><input class="form-control" type="time" name="startTime" value="${param.startTime}"></dd>
+                <dd><input class="form-control" type="time" name="startTime"></dd>
             </dl>
             <dl>
                 <dt><spring:message code="meal.endTime"/>:</dt>
-                <dd><input class="form-control" type="time" name="endTime" value="${param.endTime}"></dd>
+                <dd><input class="form-control" type="time" name="endTime"></dd>
             </dl>
-            <button class="btn btn-primary" type="submit"><spring:message code="meal.filter"/></button>
+            <button type="submit" class="btn btn-primary"><spring:message code="meal.filter"/></button>
+            <a class="btn btn-primary" onclick="clearFilter()"><spring:message code="meal.clearFilter"/></a>
         </form>
         <hr>
         <a class="btn btn-primary" onclick="add()">
