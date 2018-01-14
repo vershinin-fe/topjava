@@ -95,7 +95,7 @@
                                 code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
+                            <input type="text" class="form-control jqdtp" id="dateTime" name="dateTime"
                                    placeholder="<spring:message code="meal.dateTime"/>">
                         </div>
                     </div>

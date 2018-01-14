@@ -10,20 +10,31 @@ function makeEditable() {
     $.ajaxSetup({cache: false});
 }
 
+function initDateTimePicker() {
+    $(".jqdtp").datetimepicker({
+        format: 'Y-m-d H:m:s'
+    });
+}
+
 function add() {
     $("#modalTitle").html(i18n["addTitle"]);
     form.find(":input").val("");
     $("#editRow").modal();
+    initDateTimePicker();
 }
 
 function updateRow(id) {
     $("#modalTitle").html(i18n["editTitle"]);
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
+            if(key === 'dateTime') {
+                value = moment(value).format('YYYY-MM-DD hh:mm:ss');
+            }
             form.find("input[name='" + key + "']").val(value);
         });
         $('#editRow').modal();
     });
+    initDateTimePicker();
 }
 
 function deleteRow(id) {
@@ -41,6 +52,9 @@ function updateTableByData(data) {
 }
 
 function save() {
+    $(".jqdtp").val(function( index, value ) {
+        return moment(value).format('YYYY-MM-DDTHH:mm:ss');
+    });
     $.ajax({
         type: "POST",
         url: ajaxUrl,
